@@ -6,14 +6,15 @@ export const metadata: Metadata = {
   title: 'Customers',
 };
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams?: {
+// Perhatikan perubahan di sini: komponen menerima `props`
+export default async function Page(props: {
+  searchParams?: Promise<{
     query?: string;
     page?: string;
-  };
+  }>;
 }) {
+  // `searchParams` sekarang di-await dari `props`
+  const searchParams = await props.searchParams;
   const query = searchParams?.query || '';
 
   const customers = await fetchFilteredCustomers(query);
